@@ -1,52 +1,76 @@
 // script.js
-// Talks to the Express backend for project data + the contact form.
-// Change API_BASE_URL if the backend runs somewhere other than localhost:5000.
+// Portfolio Project Rendering and Contact Form Handler
 
 const API_BASE_URL = 'http://localhost:5000/api';
 
-document.getElementById('year').textContent = new Date().getFullYear();
+/* ===== Contact Form Handler ===== */
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
 
-/* ---------------------------------------------------------
-   Mobile nav toggle
---------------------------------------------------------- */
-const navToggle = document.getElementById('navToggle');
-const siteNav = document.querySelector('.site-nav');
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('name')?.value || '';
+    const email = document.getElementById('email')?.value || '';
+    const message = document.getElementById('message')?.value || '';
 
-navToggle.addEventListener('click', () => {
-  const isOpen = siteNav.classList.toggle('is-open');
-  navToggle.setAttribute('aria-expanded', String(isOpen));
-});
+    if (!name || !email || !message) {
+      showFormStatus('Please fill in all fields', 'danger');
+      return;
+    }
 
-document.querySelectorAll('.site-nav a').forEach((link) => {
-  link.addEventListener('click', () => {
-    siteNav.classList.remove('is-open');
-    navToggle.setAttribute('aria-expanded', 'false');
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Sending...';
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message })
+      });
+
+      if (response.ok) {
+        showFormStatus('✓ Message sent! I\'ll get back to you soon.', 'success');
+        contactForm.reset();
+      } else {
+        showFormStatus('✗ Error sending message. Please try again.', 'danger');
+      }
+    } catch (err) {
+      showFormStatus('✗ Network error. Please try again later.', 'danger');
+      console.error('Form error:', err);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+    }
+  });
+}
+
+function showFormStatus(message, type) {
+  if (!formStatus) return;
+  formStatus.textContent = message;
+  formStatus.className = `alert alert-${type} mt-3 mb-0`;
+  formStatus.style.display = 'block';
+
+  if (type === 'success') {
+    setTimeout(() => {
+      formStatus.style.display = 'none';
+    }, 5000);
+  }
+}
+
+/* ===== Smooth Scroll ===== */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const href = this.getAttribute('href');
+    if (href !== '#' && document.querySelector(href)) {
+      e.preventDefault();
+      document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+    }
   });
 });
-
-/* ---------------------------------------------------------
-   Hero role ticker
---------------------------------------------------------- */
-const roles = ['FILMMAKER', 'VIDEO EDITOR', 'MOTION DESIGNER', 'WEB DEVELOPER'];
-const roleWord = document.getElementById('roleWord');
-let roleIndex = 0;
-
-function cycleRole() {
-  roleIndex = (roleIndex + 1) % roles.length;
-  roleWord.style.opacity = '0';
-  setTimeout(() => {
-    roleWord.textContent = roles[roleIndex];
-    roleWord.style.opacity = '1';
-  }, 220);
-}
-roleWord.style.transition = 'opacity 0.2s ease';
-setInterval(cycleRole, 2200);
-
-/* ---------------------------------------------------------
-   Work / reel: fetch from backend, render cards, filter
---------------------------------------------------------- */
-const reelTrack = document.getElementById('reelTrack');
-const filterRow = document.getElementById('filterRow');
 
 let allProjects = [];
 let activeFilter = 'all';
