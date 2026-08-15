@@ -24,7 +24,6 @@ body {
   position: relative;
 }
 
-/* Light halftone texture */
 .halftone-overlay {
   position: fixed;
   inset: 0;
@@ -76,7 +75,6 @@ body {
 #mainNav .nav-link { color: var(--text-dark) !important; font-weight: 600; border-bottom: 3px solid transparent; }
 #mainNav .nav-link:hover { color: var(--marvel-red) !important; border-bottom-color: var(--marvel-red); }
 
-/* Hero */
 .hero-section {
   min-height: 92vh;
   position: relative;
@@ -86,12 +84,7 @@ body {
   z-index: 2;
 }
 
-.action-burst {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.5;
-  z-index: 0;
-}
+.action-burst { position: absolute; border-radius: 50%; opacity: 0.5; z-index: 0; }
 .burst-1 { top: 10%; left: 4%; width: 130px; height: 130px; background: radial-gradient(circle, rgba(224,38,63,0.25), transparent 70%); }
 .burst-2 { bottom: 5%; right: 8%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(37,99,235,0.18), transparent 70%); }
 
@@ -118,6 +111,7 @@ body {
   transform: rotate(-3deg);
   position: relative;
   z-index: 1;
+  cursor: pointer;
 }
 .hero-avatar i { font-size: 6rem; color: white; animation: bounce 2s infinite; }
 @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
@@ -170,7 +164,6 @@ h1 {
 h2 { font-family: var(--font-role); letter-spacing: 0.02em; color: var(--secondary); }
 h4, h5 { font-family: var(--font-role); letter-spacing: 0.02em; color: var(--marvel-red); }
 
-/* Comic panel grid in About */
 .comic-panel-grid { display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap; }
 .comic-panel {
   width: 90px; height: 90px;
@@ -210,7 +203,7 @@ h4, h5 { font-family: var(--font-role); letter-spacing: 0.02em; color: var(--mar
   transition: opacity 0.3s, transform 0.3s;
 }
 .skill-card:hover .skill-sfx { opacity: 1; transform: rotate(-6deg) scale(1.05); }
-.skill-card h5 { color: var(--marlvel-red); }
+.skill-card h5 { color: var(--marvel-red); }
 .skill-card p { color: var(--text-muted); }
 .skill-icon {
   width: 70px; height: 70px;
@@ -272,17 +265,6 @@ section p.section-label { font-family: var(--font-hand); font-size: 1.5rem; colo
 .display-5 { font-family: var(--font-role); font-size: 3rem; color: var(--marvel-red); }
 .section-label { font-family: var(--font-hand); font-weight: 600; font-size: 1.5rem; color: var(--secondary); }
 
-@media (max-width: 991px) {
-  .hero-avatar { width: 200px; height: 200px; margin-top: 2rem; }
-  .hero-avatar i { font-size: 4rem; }
-  .starburst { width: 240px; height: 240px; }
-  h1 { font-size: 2.5rem; }
-}
-@media (max-width: 576px) {
-  h1 { font-size: 2rem; }
-  section h2 { font-size: 1.8rem; }
-  .comic-badge, .speech-bubble { display: none; }
-}
 /* ---- Easter egg styles ---- */
 .egg-toast {
   position: fixed;
@@ -303,27 +285,16 @@ section p.section-label { font-family: var(--font-hand); font-size: 1.5rem; colo
   transition: transform 0.4s ease, opacity 0.4s ease;
   pointer-events: none;
 }
-.egg-toast.show {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-}
+.egg-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
 @keyframes screen-flash {
   0% { background: rgba(255,255,255,0); }
   15% { background: rgba(255,255,255,0.85); }
   100% { background: rgba(255,255,255,0); }
 }
-.flash-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  pointer-events: none;
-  animation: screen-flash 0.5s ease;
-}
+.flash-overlay { position: fixed; inset: 0; z-index: 9998; pointer-events: none; animation: screen-flash 0.5s ease; }
 
-.avatar-shake {
-  animation: avatar-shake 0.5s ease;
-}
+.avatar-shake { animation: avatar-shake 0.5s ease; }
 @keyframes avatar-shake {
   0%, 100% { transform: rotate(-3deg); }
   25% { transform: rotate(8deg) scale(1.05); }
@@ -340,15 +311,19 @@ section p.section-label { font-family: var(--font-hand); font-size: 1.5rem; colo
   pointer-events: none;
   animation: confetti-fall linear forwards;
 }
-@keyframes confetti-fall {
-  to { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
-}
+@keyframes confetti-fall { to { transform: translateY(110vh) rotate(720deg); opacity: 0.3; } }
 
-.navbar-brand.spin-once {
-  animation: brand-spin 0.6s ease;
-  display: inline-block;
+.navbar-brand.spin-once { animation: brand-spin 0.6s ease; display: inline-block; }
+@keyframes brand-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+@media (max-width: 991px) {
+  .hero-avatar { width: 200px; height: 200px; margin-top: 2rem; }
+  .hero-avatar i { font-size: 4rem; }
+  .starburst { width: 240px; height: 240px; }
+  h1 { font-size: 2.5rem; }
 }
-@keyframes brand-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@media (max-width: 576px) {
+  h1 { font-size: 2rem; }
+  section h2 { font-size: 1.8rem; }
+  .comic-badge, .speech-bubble { display: none; }
 }
