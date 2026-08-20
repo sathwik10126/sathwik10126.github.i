@@ -249,9 +249,6 @@ section p.section-label { font-family: var(--font-hand); font-size: 1.5rem; colo
 
 .py-lg-6 { padding-top: 5rem; padding-bottom: 5rem; }
 
-.progress { background-color: #eee; border-radius: 15px; border: 2px solid var(--secondary); height: 24px; }
-.progress-bar { background: linear-gradient(90deg, var(--marvel-red), var(--accent)); border-radius: 13px; }
-
 .card {
   border: 3px solid var(--secondary);
   border-radius: 20px;
